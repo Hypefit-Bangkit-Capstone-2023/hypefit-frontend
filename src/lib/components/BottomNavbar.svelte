@@ -41,14 +41,14 @@
 				{#if menuItem.path === $page.route.id}
 					<div class="py-[6px] bg-blue-3 rounded">
 						<a href={menuItem.path}>
-							<svelte:component this={menuItem.icon} fill="white" />
+							<svelte:component this={menuItem.icon} height={28} fill="white" />
 							<h3 class="mx-1 text-center text-white">{menuItem.name}</h3>
 						</a>
 					</div>
 				{:else}
 					<div class="py-[6px]">
 						<a href={menuItem.path}>
-							<svelte:component this={menuItem.icon} />
+							<svelte:component this={menuItem.icon} height={28} />
 							<h3 class="mx-1 text-center">{menuItem.name}</h3>
 						</a>
 					</div>

@@ -1,4 +1,4 @@
-<div class="flex h-full w-full justify-center items-center">
+<div class="flex h-screen w-full justify-center items-center">
 	<div>
 		<img src="/images/illustration.png" alt="Illustration" class="max-w-[292px] mx-auto" />
 		<h1 class="text-[24px] font-bold text-center text-blue-3 mt-6">Welcome to Hypefit!</h1>

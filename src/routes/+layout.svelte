@@ -1,7 +1,21 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import BottomNavbar from '$lib/components/BottomNavbar.svelte';
 	import '../app.css';
+	import '$lib/firebase';
+	import { getAuth, onAuthStateChanged } from 'firebase/auth';
+	import { browser } from '$app/environment';
+
+	if (browser) {
+		onAuthStateChanged(getAuth(), (user) => {
+			if (!user) {
+				goto('/login');
+			} else if ($page.route.id == '/login') {
+				goto('/');
+			}
+		});
+	}
 </script>
 
 <div class="mx-auto min-h-screen max-w-[390px] bg-white border border-x-black">

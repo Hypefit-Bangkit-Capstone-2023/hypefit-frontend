@@ -20,3 +20,14 @@ export type Recommendation = {
 	failed_task_count: number;
 	items: RecommendationItem[];
 };
+
+export type WardrobeItem = {
+	id: number;
+	name: string;
+	category_group_id: number;
+	category_group_name: string;
+	category_id: number;
+	category_name: string;
+	created_at: Date;
+	image_url: string;
+};

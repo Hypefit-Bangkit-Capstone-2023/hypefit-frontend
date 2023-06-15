@@ -38,7 +38,7 @@
 	>
 		{#each menuItems as menuItem}
 			<div class="w-[70px]">
-				{#if menuItem.path === $page.route.id}
+				{#if menuItem.path == '/' ? $page.route.id == menuItem.path : $page.route.id?.startsWith(menuItem.path)}
 					<div class="py-[6px] bg-blue-3 rounded">
 						<a href={menuItem.path}>
 							<svelte:component this={menuItem.icon} height={28} fill="white" />

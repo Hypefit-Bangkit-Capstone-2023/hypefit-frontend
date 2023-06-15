@@ -30,6 +30,7 @@
 <button
 	class="rounded-md py-3 w-full mt-2 font-medium {attributeByType.class}"
 	style={attributeByType.style}
+	type="button"
 	on:click
 >
 	<slot />

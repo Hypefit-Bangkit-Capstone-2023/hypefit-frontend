@@ -28,10 +28,10 @@
 		{/each}
 	</div>
 
-	<div class="fixed right-5 bottom-24 max-w-[450px] z-10">
+	<div class="plus-button">
 		<a
 			href="/wardrobe/items/create"
-			class="flex items-center justify-center aspect-square w-16 bg-blue-3 rounded-full text-white text-4xl shadow-xl"
+			class="flex items-center justify-center aspect-square w-[54px] bg-blue-3 rounded-full text-white text-4xl shadow-xl"
 		>
 			+
 		</a>
@@ -41,5 +41,11 @@
 <style lang="postcss">
 	:global(html) {
 		background-color: theme(colors.gray.100);
+	}
+
+	.plus-button {
+		top: calc(100vh - 140px);
+		right: calc(400px);
+		@apply fixed z-10;
 	}
 </style>

@@ -31,3 +31,29 @@ export type WardrobeItem = {
 	created_at: Date;
 	image_url: string;
 };
+
+export type ItemCategoryGroup = {
+	id: number;
+	name: string;
+};
+
+export type ItemCategory = {
+	id: number;
+	name: string;
+};
+
+export type ItemCategoryGroupById = {
+	id: number;
+	name: string;
+	members: ItemCategory[];
+};
+
+export type CreateWardrobeItem = {
+	name: string;
+	category_id: number;
+	image_key: string;
+};
+
+export type UploadImageResponse = {
+	key: string;
+};

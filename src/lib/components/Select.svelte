@@ -6,13 +6,12 @@
 
 	export let placeholder: string = 'Select an option';
 	export let options: IOption[] = [];
-	export let className: string = '';
-	export let value: string = '';
+	export let value: string;
 </script>
 
 <select
-	class={`border-2 focus:border-blue-3 p-2 px-3 rounded-xl custom-select-arrow ${className} outline-none`}
-	{value}
+	class="border-2 focus:border-blue-3 py-[14px] px-3 rounded-xl custom-select-arrow {$$props.class} outline-none"
+	bind:value
 >
 	<option value="" disabled selected>{placeholder}</option>
 	{#each options as option}

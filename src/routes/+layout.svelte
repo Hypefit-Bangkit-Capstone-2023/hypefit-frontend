@@ -20,14 +20,19 @@
 	}
 </script>
 
-<div class="mx-auto min-h-screen max-w-[390px] bg-white border border-x-black">
+<div
+	class="mx-auto min-h-screen max-w-[390px] bg-white border-l-[1px] border-r-[1px] border-x-black"
+>
 	{#if $page.route.id !== '/login'}
-		<div class="px-5 py-4" style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);">
+		<div
+			class="px-5 py-4 fixed z-50 bg-white w-[388px]"
+			style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);"
+		>
 			<h1 class="font-bold text-xl text-blue-3">Hypefit</h1>
 		</div>
 
 		{#if !$isAuthLoaded || !$isDataLoaded}
-			<div role="status" class="h-screen flex justify-center items-center -m-[60px]">
+			<div role="status" class="h-screen flex justify-center items-center p-content">
 				<svg
 					aria-hidden="true"
 					class="w-14 h-14 text-gray-200 animate-spin dark:text-gray-200 fill-blue-3"
@@ -47,10 +52,19 @@
 			</div>
 		{/if}
 
-		<slot />
+		<div class="p-content">
+			<slot />
+		</div>
 
 		<BottomNavbar />
 	{:else}
 		<slot />
 	{/if}
 </div>
+
+<style>
+	.p-content {
+		padding-top: 60px;
+		padding-bottom: 74px;
+	}
+</style>

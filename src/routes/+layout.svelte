@@ -35,9 +35,11 @@
 		>
 			<h1 class="font-bold text-xl text-blue-3">Hypefit</h1>
 		</div>
+	{/if}
 
-		{#if !$isAuthLoaded || !$isDataLoaded}
-			<div role="status" class="h-screen flex justify-center items-center p-content">
+	<div class:main-content={!isLoginPage}>
+		{#if !isLoginPage && (!$isAuthLoaded || !$isDataLoaded)}
+			<div role="status" class="h-full flex justify-center items-center">
 				<svg
 					aria-hidden="true"
 					class="w-14 h-14 text-gray-200 animate-spin dark:text-gray-200 fill-blue-3"
@@ -56,10 +58,8 @@
 				</svg>
 			</div>
 		{/if}
-	{/if}
 
-	<div class:p-content={!isLoginPage}>
-		{#if isLoginPage || (!isLoginPage && isLoggedIn)}
+		{#if isLoginPage || isLoggedIn}
 			<slot />
 		{/if}
 	</div>
@@ -68,10 +68,3 @@
 		<BottomNavbar />
 	{/if}
 </div>
-
-<style>
-	.p-content {
-		padding-top: 60px;
-		padding-bottom: 74px;
-	}
-</style>

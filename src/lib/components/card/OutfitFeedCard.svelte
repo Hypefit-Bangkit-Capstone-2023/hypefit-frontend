@@ -2,13 +2,19 @@
 	import HeartSolidIcon from '$lib/components/icons/HeartSolidIcon.svelte';
 	import HeartIcon from '../icons/HeartIcon.svelte';
 
-	let isLiked = false;
+	/** @type {number} */
+	export let id;
+
+	/** @type {string[]} */
+	export let imageUrls;
+
+	/** @type {boolean} */
+	export let isLiked;
+
+	let [topUrl, bottomUrl, shoeUrl] = imageUrls;
 </script>
 
-<div
-	class="rounded-lg py-4 px-2 grid grid-flow-col relative"
-	style="box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);"
->
+<div class="rounded-lg py-4 px-4 relative" style="box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);">
 	<div class="absolute top-2 right-2">
 		<button
 			class="p-2 rounded-full"
@@ -24,6 +30,35 @@
 			{/if}
 		</button>
 	</div>
-	<img class="mx-auto" src="/images/top.png" alt="Top" />
-	<img class="mx-auto" src="/images/bottom.png" alt="Bottom" />
+	<div class="flex flex-col">
+		<div class="flex flex-row">
+			<div class="section-1">
+				<img src={topUrl} alt="Top" />
+			</div>
+			<div class="section-1">
+				<img src={bottomUrl} alt="Bottom" />
+			</div>
+		</div>
+		<div class="section-2">
+			<img src={shoeUrl} alt="Shoe" />
+		</div>
+	</div>
 </div>
+
+<style>
+	.section-1 {
+		@apply h-[160px] flex justify-center items-center w-1/2;
+	}
+
+	.section-1 img {
+		@apply h-full;
+	}
+
+	.section-2 {
+		@apply mt-4 h-[80px] flex justify-center items-center;
+	}
+
+	.section-2 img {
+		@apply h-full;
+	}
+</style>

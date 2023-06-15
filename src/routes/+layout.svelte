@@ -26,11 +26,11 @@
 </script>
 
 <div
-	class="mx-auto min-h-screen max-w-[390px] bg-white border-l-[1px] border-r-[1px] border-x-black"
+	class="mx-auto min-h-screen max-w-[390px] bg-white border-l-[1px] border-r-[1px] border-x-black overflow-y-hidden"
 >
 	{#if !isLoginPage}
 		<div
-			class="px-5 py-4 fixed z-50 bg-white w-[388px]"
+			class="px-5 py-4 fixed z-50 bg-white w-[388px] top-0"
 			style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);"
 		>
 			<h1 class="font-bold text-xl text-blue-3">Hypefit</h1>

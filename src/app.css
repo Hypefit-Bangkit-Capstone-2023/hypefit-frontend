@@ -10,6 +10,7 @@ body {
 }
 
 .main-content {
-	padding-top: 60px;
-	height: calc(100vh - 74px);
+	margin-top: 60px;
+	height: calc(100vh - 74px - 60px);
+	overflow-y: auto;
 }

@@ -1,5 +1,6 @@
 <script>
 	import HeartSolidIcon from '$lib/components/icons/HeartSolidIcon.svelte';
+	import recommendationService from '$lib/services/recommendation';
 	import HeartIcon from '../icons/HeartIcon.svelte';
 
 	/** @type {number} */
@@ -12,6 +13,28 @@
 	export let isLiked;
 
 	let [topUrl, bottomUrl, shoeUrl] = imageUrls;
+
+	async function likeUnlike() {
+		if (!isLiked) {
+			isLiked = true;
+			try {
+				await recommendationService.like(id);
+			} catch (error) {
+				isLiked = false;
+				console.log(error);
+				alert('failed to like outfit');
+			}
+		} else if (isLiked) {
+			isLiked = false;
+			try {
+				await recommendationService.removeLike(id);
+			} catch (error) {
+				isLiked = true;
+				console.log(error);
+				alert('failed to like outfit');
+			}
+		}
+	}
 </script>
 
 <div class="rounded-lg py-4 px-4 relative" style="box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);">
@@ -19,9 +42,7 @@
 		<button
 			class="p-2 rounded-full"
 			style="box-shadow: 0px 1.14286px 3.42857px rgba(0, 0, 0, 0.25);"
-			on:click={() => {
-				isLiked = !isLiked;
-			}}
+			on:click={likeUnlike}
 		>
 			{#if isLiked}
 				<HeartSolidIcon height={16} />

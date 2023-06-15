@@ -3,6 +3,10 @@ export type ApiResponse<T> = {
 	data: T;
 };
 
+export type ApiResponseNoData = {
+	success: boolean;
+};
+
 export type RecommendationItem = {
 	id: number;
 	image_urls: string[];

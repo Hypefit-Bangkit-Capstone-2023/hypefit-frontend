@@ -8,12 +8,17 @@
 	import { browser } from '$app/environment';
 	import { isAuthLoaded, isDataLoaded } from '$lib/stores/loading';
 
+	let isLoggedIn = false;
+
+	$: isLoginPage = $page.route.id == '/login';
+
 	if (browser) {
 		onAuthStateChanged(getAuth(), (user) => {
 			$isAuthLoaded = true;
+			isLoggedIn = !!user;
 			if (!user) {
 				goto('/login');
-			} else if ($page.route.id == '/login') {
+			} else if (isLoginPage) {
 				goto('/');
 			}
 		});
@@ -23,7 +28,7 @@
 <div
 	class="mx-auto min-h-screen max-w-[390px] bg-white border-l-[1px] border-r-[1px] border-x-black"
 >
-	{#if $page.route.id !== '/login'}
+	{#if !isLoginPage}
 		<div
 			class="px-5 py-4 fixed z-50 bg-white w-[388px]"
 			style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);"
@@ -51,14 +56,16 @@
 				</svg>
 			</div>
 		{/if}
+	{/if}
 
-		<div class="p-content">
+	<div class:p-content={!isLoginPage}>
+		{#if isLoginPage || (!isLoginPage && isLoggedIn)}
 			<slot />
-		</div>
+		{/if}
+	</div>
 
+	{#if !isLoginPage}
 		<BottomNavbar />
-	{:else}
-		<slot />
 	{/if}
 </div>
 

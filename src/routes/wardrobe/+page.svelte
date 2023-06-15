@@ -5,20 +5,47 @@
 	import wardrobeService from '$lib/services/wardrobe';
 	import { isDataLoaded } from '$lib/stores/loading';
 
+	let category_id: string = '0';
+
 	let items: WardrobeItem[] = [];
+	let categories: { value: string; label: string }[] = [{ value: '0', label: 'All' }];
 
 	$isDataLoaded = false;
 
-	wardrobeService.getAllItem().then((res) => {
-		$isDataLoaded = true;
-		items = res.data;
-	});
+	Promise.all([wardrobeService.getAllItem(), wardrobeService.getItemCategories()])
+		.then((res) => {
+			items = res[0];
+
+			res[1].forEach((x) => {
+				categories.push({ value: x.id.toString(), label: x.name });
+			});
+			categories = categories;
+		})
+		.finally(() => {
+			$isDataLoaded = true;
+		});
 </script>
 
 <div class="px-4 mt-4">
 	<h1 class="font-bold text-xl text-blue-3 mb-3">Your wardrobe</h1>
 
-	<Select placeholder="All" options={[{ label: 'Option 1', value: 'option-1' }]} />
+	<Select
+		bind:value={category_id}
+		class="!py-[4px] !pr-8"
+		placeholder="Select category"
+		options={categories}
+		on:change={() => {
+			$isDataLoaded = false;
+			wardrobeService
+				.getAllItem(category_id == '0' ? undefined : category_id)
+				.then((res) => {
+					items = res;
+				})
+				.finally(() => {
+					$isDataLoaded = true;
+				});
+		}}
+	/>
 
 	<div class="grid grid-cols-2 gap-4 py-4">
 		{#each items as item}

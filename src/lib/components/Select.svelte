@@ -12,6 +12,7 @@
 <select
 	class="border-2 focus:border-blue-3 py-[14px] px-3 rounded-xl custom-select-arrow {$$props.class} outline-none"
 	bind:value
+	on:change
 >
 	<option value="" disabled selected>{placeholder}</option>
 	{#each options as option}

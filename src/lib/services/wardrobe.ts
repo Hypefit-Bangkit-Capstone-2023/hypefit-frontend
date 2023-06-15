@@ -2,22 +2,23 @@ import api from '$lib/api';
 import type {
 	ApiResponse,
 	CreateWardrobeItem,
+	ItemCategory,
 	ItemCategoryGroup,
 	ItemCategoryGroupById,
 	WardrobeItem
 } from './types';
 
 const wardrobeService = {
-	async getAllItem(): Promise<ApiResponse<WardrobeItem[]>> {
-		const response = await api.get('/v1/wardrobe/items');
-		const { success, data } = response.data;
-		return {
-			success,
-			data: data.map((x: WardrobeItem) => ({
-				...x,
-				created_at: new Date(x.created_at)
-			}))
-		};
+	async getAllItem(filter_category_id?: string): Promise<WardrobeItem[]> {
+		const response = await api.get('/v1/wardrobe/items', {
+			params: {
+				category_id: filter_category_id
+			}
+		});
+		return response.data.data.map((x: WardrobeItem) => ({
+			...x,
+			created_at: new Date(x.created_at)
+		}));
 	},
 
 	async getItemCategoryGroups(): Promise<ItemCategoryGroup[]> {
@@ -27,6 +28,11 @@ const wardrobeService = {
 
 	async getItemCategoryGroupById(id: number): Promise<ItemCategoryGroupById> {
 		const response = await api.get(`/v1/wardrobe/item_category_groups/${id}`);
+		return response.data.data;
+	},
+
+	async getItemCategories(): Promise<ItemCategory[]> {
+		const response = await api.get('/v1/wardrobe/item_categories');
 		return response.data.data;
 	},
 

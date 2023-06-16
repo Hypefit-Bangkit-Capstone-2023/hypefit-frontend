@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
 	import OutfitFeedCard from '$lib/components/card/OutfitFeedCard.svelte';
 	import recommendationService from '$lib/services/recommendation';
+	import type { RecommendationItem } from '$lib/services/types';
 	import { isDataLoaded } from '$lib/stores/loading';
+	import { onDestroy } from 'svelte';
 
-	/**@type {import('$lib/services/types').RecommendationItem[]}*/
-	let items = [];
+	let items: RecommendationItem[] = [];
 
 	let isWardrobeItemsNotFulfilled = false;
 	let isTaskNotCreated = false;
@@ -14,33 +15,49 @@
 
 	$isDataLoaded = false;
 
-	recommendationService.getRecommendation().then((res) => {
-		$isDataLoaded = true;
+	function load() {
+		recommendationService
+			.getRecommendation()
+			.then(async (res) => {
+				const {
+					wardrobe_item_count,
+					completed_task_count,
+					// failed_task_count,
+					pending_task_count,
+					started_task_count
+				} = res;
 
-		const {
-			wardrobe_item_count,
-			completed_task_count,
-			// failed_task_count,
-			pending_task_count,
-			started_task_count
-		} = res;
+				items = res.items;
 
-		items = res.items;
+				isWardrobeItemsNotFulfilled =
+					!items.length &&
+					(!wardrobe_item_count.top || !wardrobe_item_count.bottom || !wardrobe_item_count.shoe);
 
-		if (
-			!items.length &&
-			(!wardrobe_item_count.top || !wardrobe_item_count.bottom || !wardrobe_item_count.shoe)
-		) {
-			isWardrobeItemsNotFulfilled = true;
-		} else if (!items.length && !pending_task_count && !started_task_count) {
-			isTaskNotCreated = true;
-		} else if (!items.length && pending_task_count) {
-			isTaskPending = true;
-		} else if (!items.length && started_task_count) {
-			isTaskStarted = true;
-		} else if (items.length && completed_task_count) {
-			isRecommendationReady = true;
+				isTaskNotCreated = !items.length && !pending_task_count && !started_task_count;
+				isTaskPending = !items.length && pending_task_count > 0;
+				isTaskStarted = !items.length && started_task_count > 0;
+				isRecommendationReady = items.length > 0 && completed_task_count > 0;
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+			.finally(() => {
+				$isDataLoaded = true;
+			});
+	}
+
+	load();
+
+	const interval = setInterval(() => {
+		if (isTaskPending || isTaskStarted) {
+			load();
+		} else if (isRecommendationReady) {
+			clearInterval(interval);
 		}
+	}, 5000);
+
+	onDestroy(() => {
+		clearInterval(interval);
 	});
 
 	function requestRecommendation() {

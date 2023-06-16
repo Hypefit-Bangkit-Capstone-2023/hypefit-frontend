@@ -57,3 +57,10 @@ export type CreateWardrobeItem = {
 export type UploadImageResponse = {
 	key: string;
 };
+
+export type UserProfile = {
+	name: string;
+	photo_url: string;
+	liked_outfit_count: number;
+	wardrobe_item_count: number;
+};

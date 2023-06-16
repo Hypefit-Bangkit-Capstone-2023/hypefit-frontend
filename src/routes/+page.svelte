@@ -23,9 +23,9 @@
 			failed_task_count,
 			pending_task_count,
 			started_task_count
-		} = res.data;
+		} = res;
 
-		items = res.data.items;
+		items = res.items;
 
 		if (
 			!items.length &&

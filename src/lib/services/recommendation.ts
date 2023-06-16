@@ -1,5 +1,5 @@
 import api from '$lib/api';
-import type { Recommendation } from './types';
+import type { Recommendation, RecommendationItem } from './types';
 
 const recommendationService = {
 	async getRecommendation(): Promise<Recommendation> {
@@ -9,6 +9,11 @@ const recommendationService = {
 
 	async requestRecommendation() {
 		await api.post('/v1/recommendations');
+	},
+
+	async getLikes(): Promise<RecommendationItem[]> {
+		const response = await api.get('/v1/recommendations/likes');
+		return response.data.data;
 	},
 
 	async like(id: number) {

@@ -90,9 +90,7 @@
 				</a>
 			</div>
 		</div>
-	{/if}
-
-	{#if isTaskNotCreated}
+	{:else if isTaskNotCreated}
 		<div class="h-full flex justify-center items-center mx-auto text-center px-4">
 			<div class=" text-md leading-6">
 				<h1 class="text-blue-3 font-bold">Done adding items to your wardrobe?</h1>
@@ -105,9 +103,7 @@
 				</button>
 			</div>
 		</div>
-	{/if}
-
-	{#if isTaskPending || isTaskStarted}
+	{:else if isTaskPending || isTaskStarted}
 		<div class="h-full flex justify-center items-center mx-auto text-center px-4">
 			<div class="font-bold text-blue-3 text-md leading-6">
 				<h1>We've got your recommendation request!</h1>
@@ -116,9 +112,7 @@
 				</h2>
 			</div>
 		</div>
-	{/if}
-
-	{#if isRecommendationReady}
+	{:else if isRecommendationReady}
 		<div class="px-4 mt-4">
 			<div class="text-blue-3">
 				<h1 class="font-bold text-xl">Recommended for you</h1>

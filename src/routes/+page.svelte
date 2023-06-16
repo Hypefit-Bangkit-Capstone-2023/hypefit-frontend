@@ -6,6 +6,7 @@
 	/**@type {import('$lib/services/types').RecommendationItem[]}*/
 	let items = [];
 
+	let isWardrobeItemsNotFulfilled = false;
 	let isTaskNotCreated = false;
 	let isTaskPending = false;
 	let isTaskStarted = false;
@@ -16,12 +17,22 @@
 	recommendationService.getRecommendation().then((res) => {
 		$isDataLoaded = true;
 
-		const { completed_task_count, failed_task_count, pending_task_count, started_task_count } =
-			res.data;
+		const {
+			wardrobe_item_count,
+			completed_task_count,
+			failed_task_count,
+			pending_task_count,
+			started_task_count
+		} = res.data;
 
 		items = res.data.items;
 
 		if (
+			!items.length &&
+			(!wardrobe_item_count.top || !wardrobe_item_count.bottom || !wardrobe_item_count.shoe)
+		) {
+			isWardrobeItemsNotFulfilled = true;
+		} else if (
 			!items.length &&
 			!pending_task_count &&
 			!started_task_count &&
@@ -40,6 +51,24 @@
 </script>
 
 {#if $isDataLoaded}
+	{#if isWardrobeItemsNotFulfilled}
+		<div class="h-full flex justify-center items-center mx-auto text-center px-4">
+			<div class=" text-md leading-6">
+				<h1 class="text-blue-3 font-bold">Looks like you need to add more wardrobe items</h1>
+				<h2 class="text-blue-2 font-medium">
+					Please make sure at least one top, bottom, and shoe.
+				</h2>
+				<a href="/wardrobe/items/create">
+					<button
+						class="mt-2 uppercase text-xl text-blue-2 font-medium bg-blue-3 py-2 px-2 w-full rounded-md"
+					>
+						Add Item
+					</button>
+				</a>
+			</div>
+		</div>
+	{/if}
+
 	{#if isTaskNotCreated}
 		<div class="h-full flex justify-center items-center mx-auto text-center px-4">
 			<div class=" text-md leading-6">

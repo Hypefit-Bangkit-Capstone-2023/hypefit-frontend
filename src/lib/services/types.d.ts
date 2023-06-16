@@ -14,6 +14,11 @@ export type RecommendationItem = {
 };
 
 export type Recommendation = {
+	wardrobe_item_count: {
+		top: number;
+		bottom: number;
+		shoe: number;
+	};
 	pending_task_count: number;
 	started_task_count: number;
 	completed_task_count: number;

@@ -68,4 +68,10 @@ export type UserProfile = {
 	photo_url: string;
 	liked_outfit_count: number;
 	wardrobe_item_count: number;
+	task_count: {
+		pending: number;
+		started: number;
+		completed: number;
+		failed: number;
+	};
 };

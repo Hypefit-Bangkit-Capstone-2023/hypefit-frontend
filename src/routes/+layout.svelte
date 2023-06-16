@@ -60,7 +60,9 @@
 		{/if}
 
 		{#if isLoginPage || isLoggedIn}
-			<slot />
+			<div class:hidden={!$isAuthLoaded || !$isDataLoaded}>
+				<slot />
+			</div>
 		{/if}
 	</div>
 

@@ -7,6 +7,10 @@ const recommendationService = {
 		return response.data.data;
 	},
 
+	async requestRecommendation() {
+		await api.post('/v1/recommendations');
+	},
+
 	async like(id: number) {
 		await api.post(`/v1/recommendations/${id}/like`);
 	},

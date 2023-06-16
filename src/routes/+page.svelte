@@ -48,6 +48,18 @@
 			isRecommendationReady = true;
 		}
 	});
+
+	function requestRecommendation() {
+		recommendationService
+			.requestRecommendation()
+			.then(() => {
+				location.reload();
+			})
+			.catch((err) => {
+				console.log(err);
+				alert('Something went wrong. Please try again later.');
+			});
+	}
 </script>
 
 {#if $isDataLoaded}
@@ -76,6 +88,7 @@
 				<h2 class="text-blue-2 font-medium">Get your tailored recommendations now!</h2>
 				<button
 					class="mt-2 uppercase text-xl text-blue-2 font-medium bg-blue-3 py-2 px-2 w-full rounded-md"
+					on:click={requestRecommendation}
 				>
 					Tap Here
 				</button>

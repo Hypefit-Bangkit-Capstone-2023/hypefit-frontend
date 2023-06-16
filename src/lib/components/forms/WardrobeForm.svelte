@@ -5,6 +5,7 @@
 	import UploadIcon from '$lib/components/icons/UploadIcon.svelte';
 	import uploadService from '$lib/services/upload';
 	import wardrobeService from '$lib/services/wardrobe';
+	import { AxiosError } from 'axios';
 
 	const maxFileSize = '5MB';
 	const maxFileSizeBytes = 5 * 1000 * 1000;
@@ -109,6 +110,9 @@
 		} catch (error) {
 			console.log(error);
 			isSuccess = false;
+			if (error instanceof AxiosError && error.response) {
+				alert(error.response.data.message);
+			}
 		} finally {
 			isUploading = false;
 			isSubmitting = false;

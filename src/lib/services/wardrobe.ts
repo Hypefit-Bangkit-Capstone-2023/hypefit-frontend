@@ -49,6 +49,10 @@ const wardrobeService = {
 
 	async updateItem(id: string, req: CreateWardrobeItem): Promise<void> {
 		await api.put(`/v1/wardrobe/items/${id}`, req);
+	},
+
+	async deleteItem(id: string): Promise<void> {
+		await api.delete(`/v1/wardrobe/items/${id}`);
 	}
 };
 

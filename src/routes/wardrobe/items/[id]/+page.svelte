@@ -18,7 +18,7 @@
 		});
 </script>
 
-<div class="px-4 mt-4">
+<div class="px-4 mt-4 pb-4">
 	<h1 class="font-bold text-xl text-blue-3 mb-3">Edit Item</h1>
 
 	{#if item}

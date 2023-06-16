@@ -165,6 +165,26 @@
 			isSubmitting = false;
 		}
 	}
+
+	let deletionStatus = '';
+	async function handleDelete() {
+		if (!item_id) {
+			return;
+		}
+
+		try {
+			deletionStatus = 'Deleting item';
+			await wardrobeService.deleteItem(item_id);
+			deletionStatus = 'Item deleted';
+
+			setTimeout(() => {
+				goto('/wardrobe');
+			}, 500);
+		} catch (error) {
+			console.log(error);
+			deletionStatus = 'Something went wrong';
+		}
+	}
 </script>
 
 <form class="relative height">
@@ -226,7 +246,7 @@
 		/>
 	</div>
 
-	{#if isUploading || isSubmitting || isSuccess}
+	{#if isUploading || isSubmitting || isSuccess || deletionStatus}
 		<p class="mt-5 text-center text-blue-3 font-medium">
 			Status:
 			{#if isUploading}
@@ -235,6 +255,8 @@
 				{!!item_id ? 'Updating' : 'Adding'} item
 			{:else if isSuccess}
 				Item {!!item_id ? 'updated' : 'added'}
+			{:else if deletionStatus}
+				{deletionStatus}
 			{:else if !isSuccess}
 				Something went wrong
 			{/if}
@@ -244,6 +266,7 @@
 	<div class="mt-4">
 		{#if !!item_id}
 			<Button type="primary" on:click={handleEdit}>Save</Button>
+			<Button type="danger" on:click={handleDelete}>Delete</Button>
 		{:else}
 			<Button type="primary" on:click={handleCreate}>Save</Button>
 		{/if}

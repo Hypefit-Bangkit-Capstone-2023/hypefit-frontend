@@ -20,7 +20,7 @@
 		const {
 			wardrobe_item_count,
 			completed_task_count,
-			failed_task_count,
+			// failed_task_count,
 			pending_task_count,
 			started_task_count
 		} = res;
@@ -32,13 +32,7 @@
 			(!wardrobe_item_count.top || !wardrobe_item_count.bottom || !wardrobe_item_count.shoe)
 		) {
 			isWardrobeItemsNotFulfilled = true;
-		} else if (
-			!items.length &&
-			!pending_task_count &&
-			!started_task_count &&
-			!completed_task_count &&
-			!failed_task_count
-		) {
+		} else if (!items.length && !pending_task_count && !started_task_count) {
 			isTaskNotCreated = true;
 		} else if (!items.length && pending_task_count) {
 			isTaskPending = true;

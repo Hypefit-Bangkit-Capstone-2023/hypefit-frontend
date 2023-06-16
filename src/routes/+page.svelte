@@ -123,8 +123,8 @@
 			<div class="text-blue-3">
 				<h1 class="font-bold text-xl">Recommended for you</h1>
 				<p class="font-medium text-sm opacity-60">
-					Discover personalized recommendations tailored just for you, based on your unique
-					preferences and interests
+					Discover personalized recommendations tailored just for you, drawing inspiration from the
+					items in your wardrobe.
 				</p>
 			</div>
 

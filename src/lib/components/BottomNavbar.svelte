@@ -29,10 +29,7 @@
 	];
 </script>
 
-<div
-	class="fixed bottom-0 w-full max-w-[388px]"
-	style="box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);"
->
+<div class="fixed bottom-0 w-mobile" style="box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);">
 	<nav
 		class="bg-white grid grid-flow-col justify-items-center text-blue-3 font-medium text-[11px] py-2"
 	>

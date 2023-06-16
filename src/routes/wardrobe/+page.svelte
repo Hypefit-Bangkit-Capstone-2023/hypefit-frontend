@@ -71,8 +71,8 @@
 	}
 
 	.plus-button {
-		top: calc(100vh - 140px);
-		right: calc(400px);
+		right: 20px;
+		bottom: 90px;
 		@apply fixed z-10;
 	}
 </style>

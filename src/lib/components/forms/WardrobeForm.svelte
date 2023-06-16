@@ -9,11 +9,13 @@
 	const maxFileSize = '5MB';
 	const maxFileSizeBytes = 5 * 1000 * 1000;
 
-	let image: File | undefined;
-	let name: string;
-	let category_group_id: string;
-	let category_id: string;
+	export let item_id: string = '';
+	export let name: string = '';
+	export let category_group_id: string = '';
+	export let category_id: string = '';
+	export let image_url: string = '';
 
+	let image: File | undefined | null;
 	let inputFileValue: FileList;
 	let previewImage: string;
 	let previewImageFileName: string;
@@ -48,9 +50,18 @@
 	$: if (category_group_id) {
 		wardrobeService.getItemCategoryGroupById(parseInt(category_group_id)).then((res) => {
 			categories = res.members.map((x) => ({ value: x.id.toString(), label: x.name }));
-			category_id = '';
 		});
 	}
+
+	function getImageKey(url: string) {
+		if (!url) {
+			return '';
+		}
+		const urlParts = url.split('/');
+		return urlParts[urlParts.length - 1];
+	}
+
+	$: image_key = getImageKey(image_url);
 
 	let isUploading = false;
 	let isSubmitting = false;
@@ -103,18 +114,69 @@
 			isSubmitting = false;
 		}
 	}
+
+	async function handleEdit() {
+		if (!image && !image_key) {
+			alert('Please choose an image');
+			return;
+		}
+
+		if (!name) {
+			alert('Please input an item name');
+			return;
+		}
+
+		if (!category_group_id) {
+			alert('Please select a group');
+			return;
+		}
+
+		if (!category_id) {
+			alert('Please select a category');
+			return;
+		}
+
+		try {
+			let uploadImageRes;
+			if (image) {
+				isUploading = true;
+				uploadImageRes = await uploadService.uploadImage(image);
+				isUploading = false;
+			}
+
+			isSubmitting = true;
+			await wardrobeService.updateItem(item_id, {
+				name,
+				category_id: parseInt(category_id),
+				image_key: uploadImageRes ? uploadImageRes.key : image_key
+			});
+			isSubmitting = false;
+
+			isSuccess = true;
+
+			setTimeout(() => {
+				goto('/wardrobe');
+			}, 500);
+		} catch (error) {
+			console.log(error);
+			isSuccess = false;
+		} finally {
+			isUploading = false;
+			isSubmitting = false;
+		}
+	}
 </script>
 
 <form class="relative height">
 	<div class="mb-3">
 		<label for="image">
 			<div class="h-[290px] rounded-xl border p-5 flex items-center justify-center cursor-pointer">
-				{#if previewImage}
+				{#if previewImage || image_url}
 					<div class="h-[290px] p-2">
 						<img
-							src={previewImage}
+							src={previewImage || image_url}
 							class="w-full h-full object-contain"
-							alt={previewImageFileName}
+							alt={previewImageFileName || image_key}
 						/>
 					</div>
 				{:else}
@@ -148,6 +210,9 @@
 			options={categoryGroups}
 			class="!rounded-md py-4"
 			placeholder="Select a group"
+			on:change={() => {
+				category_id = '';
+			}}
 		/>
 	</div>
 
@@ -167,9 +232,9 @@
 			{#if isUploading}
 				Uploading Image
 			{:else if isSubmitting}
-				Adding item
+				{!!item_id ? 'Updating' : 'Adding'} item
 			{:else if isSuccess}
-				Item added
+				Item {!!item_id ? 'updated' : 'added'}
 			{:else if !isSuccess}
 				Something went wrong
 			{/if}
@@ -177,7 +242,11 @@
 	{/if}
 
 	<div class="mt-4">
-		<Button type="primary" on:click={handleCreate}>Save</Button>
+		{#if !!item_id}
+			<Button type="primary" on:click={handleEdit}>Save</Button>
+		{:else}
+			<Button type="primary" on:click={handleCreate}>Save</Button>
+		{/if}
 	</div>
 </form>
 

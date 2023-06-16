@@ -21,6 +21,13 @@ const wardrobeService = {
 		}));
 	},
 
+	async getItemById(id: string) {
+		const response = await api.get(`/v1/wardrobe/items/${id}`);
+		const { data } = response.data;
+		data.created_at = new Date(data.created_at);
+		return data;
+	},
+
 	async getItemCategoryGroups(): Promise<ItemCategoryGroup[]> {
 		const response = await api.get('/v1/wardrobe/item_category_groups');
 		return response.data.data;
@@ -38,6 +45,10 @@ const wardrobeService = {
 
 	async createItem(req: CreateWardrobeItem): Promise<void> {
 		await api.post('/v1/wardrobe/items', req);
+	},
+
+	async updateItem(id: string, req: CreateWardrobeItem): Promise<void> {
+		await api.put(`/v1/wardrobe/items/${id}`, req);
 	}
 };
 
